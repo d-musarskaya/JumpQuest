@@ -1,7 +1,7 @@
 import arcade
 
 SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 601
 SCREEN_TITLE = "JumpQuest"
 
 
