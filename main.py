@@ -1,7 +1,7 @@
 import arcade
 
 SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 601
+SCREEN_HEIGHT = 600
 SCREEN_TITLE = "JumpQuest"
 
 
@@ -11,7 +11,13 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.WHITE)
 
     def on_draw(self):
+        button_width = 240
+        button_height = 60
         self.clear()
+        arcade.draw_lbwh_rectangle_filled((self.width - button_width) //2, 320, button_width,
+                                          button_height, (0, 194, 168))
+        arcade.draw_lbwh_rectangle_filled((self.width - button_width) // 2, 230, button_width,
+                                          button_height, (0, 194, 168))
 
 
 def setup_game(width=900, height=600, title="JumpQuest"):
