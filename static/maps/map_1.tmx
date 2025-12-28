@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="ProjectUtumno_full.tsx"/>
+ <tileset firstgid="6081" source="cave.tsx"/>
+ <tileset firstgid="6161" source="wooden_stairs-ns.tsx"/>
+ <layer id="2" name="background" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJzFVVsOgzAMQ+ohy4FQH9xkt9yQiOR5TloQ0j4iQUlix0nKlpalnbb90crH1ofzRd8zve+B1TMfG8ZhHg+Dfaqje79R6z7pWwff+w18ZY04KVzW0vDtrIL2qFVx8l2pNwtsrB95oGXgdPhHM3tFR+SJujXQoU70uUBMNNNeHq4X/Vkrnm/DxTPTh3dkxMv2ztPQ/LLAnNFI8Te+ai4iHSLM2XuV53tzcMy3Aq7n15PmVugc513VxT3hPCqnx38n3Or4oW9O43nhnqnd9fZZ8R3tiVcf9sabBaUV5lS7y3kKPLcAt6VfvhEux400UP+LRmde/OGzpu97nnXl/nDv7L6LYmb2D7WMdtTjwjPzWuZxnzLk9wZ+2kzS
+  </data>
+ </layer>
+ <layer id="1" name="walls" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJzVVe0KwyAMrO//SP1R/CgFfam1kLBriNqls2MHYjTGqKdndNO07iXuZSG7kB2pFLAD2NguFb8Wz+1P4Q0xCF7Lv+S1xCAOLmfgF4vWx/2J7Fzx5848hfpH7k1DpP22cJdLDXynW9gG5C0KN/4izy2/v+j/NnpntA7K27sTv9qv1E7JDdtJjKnFJPB7qrMyjnXDCusb43VYYX1jC53N03klV/KtoRbj2CTGenfm9eBuc289ZC3Hf77F7x2tasX2+B3xJxwInf9ohDZzXuSyuPN/LLVaajj6Z1Hj3AHeMc/9AuEwrac=
+  </data>
+ </layer>
+ <layer id="3" name="decor" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhYkMeGyuenwCxTNtxy2Vjk/FkRbDM2VD66PD7+LR7satDVj3SALQ5g4BIPbjlSAcwsQuHPi8bHF99mbJhio/GLCvDlP1IBcnJALyNggNz8Si4fHVAxyQ5qgCv8sQEzNLWwMMKX93GBgY5fEDhNhUimhhm0AJQ4Cz2eYQBbWsFlz2CIX1oDTomBwQAHwBfk
+  </data>
+ </layer>
+ <layer id="4" name="stairs" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAwkCJYgTwydODgjHYhY2MXzio/YSBnFYzMImhixOj/jHBugRHiPFXnxxhR7/MLW40gUpgBS30zp/DVV7icln+OIKXT+x8UppuJCrf6TZS2k+o0Y+pTUAAMSEE40=
+  </data>
+ </layer>
+</map>

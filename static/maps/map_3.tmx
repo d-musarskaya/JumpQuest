@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" source="../Downloads/sewer_1.tsx"/>
+ <tileset firstgid="1" source="../Downloads/JumpQuest/cave.tsx"/>
+ <tileset firstgid="81" source="../Downloads/JumpQuest/ProjectUtumno_full.tsx"/>
+ <tileset firstgid="6161" source="../Downloads/JumpQuest/wooden_stairs-ns.tsx"/>
+ <layer id="1" name="background" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJwLYmFgCBogHIyGSVGLrAefHCGz8NkZQ4J+YswjFuOydzjgd8yYYo+YEfQjLPKk4nAS4piaOJzO9iHbGz6C7H0BTSMiSJgcc14yQzCyGCXpD1f5gys/R0IxLjMoDSds9sYgYWT76ZFfsNk72DB6GDynQnlEarrBFgdhUIwshi3vRUExsfYSUhOGhtHtDceCo8mwNwyLfYTchs1ueqWTaDSMS91VHuyY1u4DAAYJ3Ms=
+  </data>
+ </layer>
+ <layer id="2" name="walls" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJwTYmVgEBogTAkIJEPPULaXHDDQ9iax0BcT69+BSs+j9lIHD9Z0RW0wai997R1NV6P20sLegcAAgVkyGQ==
+  </data>
+ </layer>
+ <layer id="3" name="decor" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhcIIUNlf2UFb8abPzBApYKDoydjOzE2/0cR9jhEidk92AAq7GkGRCo4qKvO0bByAHI5RSsPIKJoZRp7BCMrHYBC3n5jRQAsxNbeTpcAK3DkF7AXAi33DxGSHohBEDqqAVAZlHTPBDIZCesZhSQDwAjIRQV
+  </data>
+ </layer>
+ <layer id="6" name="hazards" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwx1c58HEo2AUjIJRMFTBLRxl2Gj5NgpIBVd5UPFwAAAq6gqg
+  </data>
+ </layer>
+ <layer id="4" name="stairs" width="30" height="21" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BkAEGJgbFXYoTZKz9A9tILCAP9JwLEonT2pxTQPmkglhkh9ioC7VMCYuVBlp7UB5l7iAWj5R99wGAo/wBx9QQk
+  </data>
+ </layer>
+</map>

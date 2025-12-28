@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="../sewer_1.tsx"/>
+ <tileset firstgid="89" source="cave.tsx"/>
+ <tileset firstgid="169" source="ProjectUtumno_full.tsx"/>
+ <tileset firstgid="6249" source="wooden_stairs-ns.tsx"/>
+ <layer id="1" name="background" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJzFVkGSgzAM68F/YkIBE0jz/yftdsaaKsL02oOGkNpWbCumkz0e0w+wB77ZvAL8ntmt/yjJ/hFQXqybxF4iFlDjecbvZ6CGzxbrEmvEett0OcdOfO+nJ+dF3JnAMavYgjurSU/2SsAjngdqAuXPal+I/xDfiXJsZNdjfw7bJvneodm1Hif1V8/bJDZ6yGfSPJYANLWGL9fYKR/mU01pX5x8Vxtrl/Vtto/+3cYcWQe7jbVm7cIOMZgPdduEu4Z9pkH0S3mRT7XPnUAcPj/6pnUBb9ZH7hHPDaf9SjHmWCt3NgtUr8y/CS+4oTv+DXvwdcIr6QXqy/sl6rjYmLP2l3mhca4d8yqQPzTG/PDvwotZ1S2fKezPefMsOcSftd8k3i77qluOwxzoNd+RKr3S+6b5Q1duYz7VrnfwsFE3qBHurSfx+dx878Dd7FpLXuv3EHl14sN9YH7VSTazwI1ZCf/DRu3xuSvF1Vyzb9UdN2vahY/fudfK023s1x3vU7ihC+iE51P2H6VRbMyUZtd+L5bnm800xf4Fd3VU/AGayJ15
+  </data>
+ </layer>
+ <layer id="2" name="walls" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJzFVlsOhCAM1Ft42/3ib08gslTFe25IOgnplofBLE0IdixM2kmr6zxNq1ibgmF9GrHcXTH2YrxmT8XAwD+Cdx3AW9JF6hYE7kSs9M/CvUdjvr35SQuDeP0gXhI6nImOQem9+N4mGltx3s6/WmqYb+ijnrxyFjivf/OidjXe1/IsL2V0QN861tgseh86cXZLMFLuTWfB0VBHU8n3rhbgHsHb0r/vAm/U/i4vKbWHbhfvUh/0HnDDvMSYnNM2mcc7P9vGfEtW00CznjnZw9vzPYKVtM8Zcc+lGhKvnXHoif8i+KiVE/vOcehn+JZ9z/4XpSiPJQ==
+  </data>
+ </layer>
+ <layer id="3" name="decor" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBiaQIwPt9xlNlT+fF7s6uKh4nzs2OVvcpHurmhO8vUOZ3CBjbAaYoEiN/FqkeP+ElqcwOIKG4ClDfR0Rut4jceRVgcrgIUHrvwYTqZ/0PMwvrjCB5TQ0gpyXkdPD6OAckBOPlfAkp/R4x85rkBpCpYe0gikL/SyP2kQxLncEMrj2PL1HEZUNrb6E72cxFcOEJsPke3VQmJjcyO2dHiDzLhHtleTEbe6wQQAFOEZHQ==
+  </data>
+ </layer>
+ <layer id="4" name="stairs" width="30" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwHUS+AXwyZPilm4QCsWtchi2ORJMWvUXgjowaIWWQybPAjUEdBHK0CK30aavaTkL0IAW1ziMp/WYYPL/JFmbw+BcpfS+Ccm/w6FfDAc7KVHWToQAACEfxkn
+  </data>
+ </layer>
+</map>
