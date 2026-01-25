@@ -1,7 +1,7 @@
 import arcade
 import random
 import math
-
+import sqlite3
 
 # Константы
 SCREEN_WIDTH = 960
@@ -213,6 +213,8 @@ class MyGame(arcade.Window):
         self.mouse_x = 0
         self.mouse_y = 0
 
+        self.high_score = 0
+
     def setup_level(self, level_num):
         map_path = f"static/maps/map_{level_num}.tmx"
         self.tile_map = arcade.load_tilemap(map_path)
@@ -243,6 +245,17 @@ class MyGame(arcade.Window):
         start_x = TILE_SIZE * 1 + TILE_SIZE // 2
         start_y = TILE_SIZE * 17 + TILE_SIZE // 2
         self.player = Player(start_x, start_y, character_num=character_num, scale=0.1)
+        self.scene.add_sprite("player", self.player)
+        if level_num == 1:
+            initial_hp = 600
+        else:
+            initial_hp = self.player.current_hp
+
+        self.player = Player(start_x, start_y, character_num=character_num, scale=0.1)
+        self.player.current_hp = initial_hp
+        self.player.max_hp = 600
+        # ------------------------
+
         self.scene.add_sprite("player", self.player)
 
         self.ghosts = arcade.SpriteList()
@@ -393,33 +406,40 @@ class MyGame(arcade.Window):
         )
 
     def draw_game_won(self):
-        arcade.draw_lrbt_rectangle_filled(
-            left=0,
-            right=self.width,
-            bottom=0,
-            top=self.height,
-            color=arcade.color.BLACK
-        )
+        arcade.draw_lrbt_rectangle_filled(0, self.width, 0, self.height, arcade.color.BLACK)
 
-        arcade.draw_text(
-            "Игра пройдена!",
-            self.width // 2,
-            self.height // 2,
-            arcade.color.GOLD,
-            font_size=50,
-            anchor_x="center",
-            anchor_y="center"
-        )
+        arcade.draw_text("МОЛОДЕЦ! ТЫ ВЫИГРАЛ!",
+                         self.width // 2,
+                         self.height // 2 + 100,
+                         arcade.color.GOLD,
+                         40,
+                         anchor_x="center",
+                         anchor_y="center")
 
-        arcade.draw_text(
-            "Нажмите ESC для выхода в меню",
-            self.width // 2,
-            self.height // 2 - 60,
-            arcade.color.WHITE,
-            font_size=20,
-            anchor_x="center",
-            anchor_y="center"
-        )
+        current_hp = int(max(0, self.player.current_hp))
+        arcade.draw_text(f"ОСТАЛОСЬ HP: {current_hp}/600",
+                         self.width // 2,
+                         self.height // 2,
+                         arcade.color.GREEN,
+                         30,
+                         anchor_x="center",
+                         anchor_y="center")
+
+        arcade.draw_text(f"РЕКОРД (ЛУЧШИЙ): {self.high_score}/600",
+                         self.width // 2,
+                         self.height // 2 - 60,
+                         arcade.color.CYAN,
+                         24,
+                         anchor_x="center",
+                         anchor_y="center")
+
+        arcade.draw_text("Нажмите ESC для выхода в меню",
+                         self.width // 2,
+                         self.height // 2 - 140,
+                         arcade.color.WHITE,
+                         16,
+                         anchor_x="center",
+                                anchor_y="center")
 
     def draw_game_over(self):
         arcade.draw_lrbt_rectangle_filled(
@@ -549,6 +569,19 @@ class MyGame(arcade.Window):
                 self.setup_level(self.current_level)
         elif self.current_level == 3:
             if player_tile_x == 2 and player_tile_y == 1:
+                # --- ДОБАВЛЯЕМ СОХРАНЕНИЕ ---
+                final_hp = int(self.player.current_hp)
+                db = sqlite3.connect("JumpQuest.db")
+                res = db.execute("SELECT score FROM record").fetchone()
+                old_record = res[0] if res else 0
+
+                if final_hp > old_record:
+                    db.execute(f"UPDATE record SET score = {final_hp}")
+                    db.commit()
+                    self.high_score = final_hp
+                else:
+                    self.high_score = old_record
+                db.close()
                 self.game_state = GAME_WON
 
     def on_key_press(self, key, modifiers):
