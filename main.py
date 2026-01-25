@@ -340,7 +340,7 @@ class MyGame(arcade.Window):
         self.scene.draw()
 
     def draw_ui(self):
-        # Исправленный метод рисования полоски здоровья
+        # Полоска здоровья
         health_bar_x = self.width // 2
         health_bar_y = self.height - 30
 
@@ -392,12 +392,11 @@ class MyGame(arcade.Window):
         )
 
     def draw_game_won(self):
-        # Исправляем: передаем параметры в правильном порядке
         arcade.draw_lrbt_rectangle_filled(
-            left=0,  # левая граница экрана
-            right=self.width,  # правая граница экрана
-            bottom=0,  # нижняя граница экрана
-            top=self.height,  # верхняя граница экрана
+            left=0,
+            right=self.width,
+            bottom=0,
+            top=self.height,
             color=arcade.color.BLACK
         )
 
@@ -422,12 +421,11 @@ class MyGame(arcade.Window):
         )
 
     def draw_game_over(self):
-        # Исправляем: передаем параметры в правильном порядке
         arcade.draw_lrbt_rectangle_filled(
-            left=0,  # левая граница экрана
-            right=self.width,  # правая граница экрана
-            bottom=0,  # нижняя граница экрана
-            top=self.height,  # верхняя граница экрана
+            left=0,
+            right=self.width,
+            bottom=0,
+            top=self.height,
             color=arcade.color.BLACK
         )
 
@@ -621,7 +619,6 @@ class MyGame(arcade.Window):
                 ghost_bottom = ghost.center_y - ghost.height / 2
                 ghost_top = ghost.center_y + ghost.height / 2
 
-                # Учитываем смещение камеры (если есть)
                 if (ghost_left <= mouse_x <= ghost_right and
                         ghost_bottom <= mouse_y <= ghost_top):
                     # Атакуем привидение
