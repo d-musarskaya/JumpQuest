@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
- <tileset firstgid="1" source="../../../../Downloads/JumpQuest-2/sewer_1.tsx"/>
- <tileset firstgid="89" source="../../../../Downloads/JumpQuest-2/cave.tsx"/>
- <tileset firstgid="169" source="../../../../Downloads/JumpQuest-2/ProjectUtumno_full.tsx"/>
- <tileset firstgid="6249" source="../../../../Downloads/JumpQuest-2/wooden_stairs-ns.tsx"/>
- <layer id="1" name="background" width="30" height="21" locked="1">
+ <tileset firstgid="1" source="sewer_1.tsx"/>
+ <tileset firstgid="89" source="cave.tsx"/>
+ <tileset firstgid="169" source="ProjectUtumno_full.tsx"/>
+ <tileset firstgid="6249" source="wooden_stairs-ns.tsx"/>
+ <tileset firstgid="6354" source="../../../../JumpQuest/ProjectUtumno_full.tsx"/>
+ <layer id="1" name="background" width="30" height="21">
   <data encoding="base64" compression="zlib">
-   eJzllDsOgCAMQB1cPYoXYFEXT+PJMIH4OaBLh6Zp+YtGhxeSUvoIUHTbNPohVkJMLl7jmvPVcjnPiPUh9UKRvF9gZmIKjaqAw0bccUlsZR/22h95RxgXREqdCcCxnPcn/T9SP2+AVCP3nDjvicD+Gv3Ced8GPYOhotN1BwbAMa73diDU68sxBOq1DEeC1zA+3944d613chCkvL7juXt/F9Fxpnk=
+   eJytVtEOhCAM80P4/187QMW7PzgvoUltNpjmHpqg2VboRjWnZdk6ckc5sZ9YBS8HGmfBygEfr/OAJwehOVhvk1hG7WgdpaORXpqzSc1KscWoj3XreoPL25Old3bes+5V+A5jP5E+qm44F+uD2alGfYunJVtj5uKzKFd0RmdQLu6ZzsxMmzsY7Qe1C8VWAebL04G5OI9rI5Z1RQ73h2d0NiNRP6jCF/GSH94EeFajesXg4tm7y+edkTU70nXuseYeWL3iXuDucJ/Yl0da8jO4IrB08vTx7vHTe4e5Wwe80bvrwZr1Uf6ert8/1oo9O/qts+YO/Y3uHTXUy2f+zWdS333iTV4s5n90rz6T2nd6OgJ8weqJnpv9Td9bfvgvf78L/o+I7OcL25eC3g==
   </data>
  </layer>
- <layer id="2" name="walls" width="30" height="21" locked="1">
+ <layer id="2" name="walls" width="30" height="21">
   <data encoding="base64" compression="zlib">
-   eJzLYmVgyBogTAlYSYaeoWwvOWCg7d3FQl9MrH8HKj2P2ksdPFjTFbXBqL30tXc0XY3aSwt7BwIDADcojNk=
+   eJzFVtEOhCAM80d4QcIh4P//3kmyxrp4BggnJA0E2Cp0GyazLEmQFfyBIH3BLrAHItklmU+0p2AlwEeUvvhvbbbDhlvhdhN486TzeqWHFT2DjJ1a1+D1KDYcH5GgbX+dt+dMtTbgfpv3Sd9/827C7USHzZxxjh46Im/DjW5W6c6xg9xl7VvO9bS3xc8+iRex/javFz0BS7oFpQVy+q4O6xqg6wL8IFY+lfc8SgveU1OfR/PmSbysJ8ZaL7yvXgFaZmVX4mRVtZk5YNvzHvXcA7fWPBrFWxvPo3l1zdRw8l2sI2vF73WgOWuueYt/NW/OHPoCGkw/YA==
   </data>
  </layer>
  <layer id="3" name="decor" width="30" height="21">
   <data encoding="base64" compression="zlib">
-   eJxjYBhcYA8bKtuWDb8abHxygC435Wagg7+C1DeTGDsj2Ym3256dNHFCdg8GwIwjPVzioq87RsHwAmv4sItrcqOWU7DyCCaGUqaxQzCy2h8s5OU3XEATS1kGsxPmJlqUdwMNqBmGAwn6hXDLfWOEpBdsADneQerIBVlo5STILErMwwYODpO4GqwAABCCGLA=
+   eJxjYKAveK2AXTxdHkJfkiBshrY6RB0uTCxA1rNLDr+Z6GavksM0bwUWMWz2UQOoyxOvdjXQXalo6knRTwmA+RkU76TG0UZoeG4gEK7E2L8CGr/JVPI3eniCwEYkdxLjT3LTAjY/gPIEshyhNEytcBgogC3/EQuQwwJU7qDHA4y/C4sdoLRISXo00EHlUysfYnMrMkinQXyT4nZc5T4sHa6mIEzJBRupbCeu8p+YcCIUfzCAL5xAZQC2comU9EpJ2iYECNWPIIDN/UMFIJdJoPxGzTKW1LQKAJILSJU=
   </data>
  </layer>
- <layer id="4" name="stairs" width="30" height="21" locked="1">
+ <layer id="4" name="stairs" width="30" height="21">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BkgEyJgbG3YITZWz5A9tILZAP9lwPEuXT2ZxHQvmIgLhkh9lYC7asC4upBlp7qB5l7iAWj5R99wGAo/wDDagtc
+   eJxjYBgF9AT7JMiXR5cjZBYyOEJALT55dDlCZo1ke0/jUAuLK2zyuOTQ+aTENwyQ4k9K1Y0Ee3HFAb64wpUmSFFH7TAbVYcdEJvn8MUVIXXE5GNy0j41zBxp9hIbj6QAWphJKgAAZE4znQ==
   </data>
  </layer>
 </map>
