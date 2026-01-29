@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
- <tileset firstgid="1" source="../sewer_1.tsx"/>
+ <tileset firstgid="1" source="../../../../Downloads/JumpQuest/sewer_1.tsx"/>
  <tileset firstgid="89" source="cave.tsx"/>
  <tileset firstgid="169" source="ProjectUtumno_full.tsx"/>
  <tileset firstgid="6249" source="wooden_stairs-ns.tsx"/>
