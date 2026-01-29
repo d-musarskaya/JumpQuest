@@ -1,10 +1,11 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="sewer_1.tsx"/>
  <tileset firstgid="89" source="cave.tsx"/>
  <tileset firstgid="169" source="ProjectUtumno_full.tsx"/>
  <tileset firstgid="6249" source="wooden_stairs-ns.tsx"/>
- <tileset firstgid="6354" source="../../../../Downloads/JumpQuest/ProjectUtumno_full.tsx"/>
+ <tileset firstgid="6354" source="../../../../JumpQuest/ProjectUtumno_full.tsx"/>
  <layer id="1" name="background" width="30" height="21">
   <data encoding="base64" compression="zlib">
    eJytVtEOhCAM80P4/187QMW7PzgvoUltNpjmHpqg2VboRjWnZdk6ckc5sZ9YBS8HGmfBygEfr/OAJwehOVhvk1hG7WgdpaORXpqzSc1KscWoj3XreoPL25Old3bes+5V+A5jP5E+qm44F+uD2alGfYunJVtj5uKzKFd0RmdQLu6ZzsxMmzsY7Qe1C8VWAebL04G5OI9rI5Z1RQ73h2d0NiNRP6jCF/GSH94EeFajesXg4tm7y+edkTU70nXuseYeWL3iXuDucJ/Yl0da8jO4IrB08vTx7vHTe4e5Wwe80bvrwZr1Uf6ert8/1oo9O/qts+YO/Y3uHTXUy2f+zWdS333iTV4s5n90rz6T2nd6OgJ8weqJnpv9Td9bfvgvf78L/o+I7OcL25eC3g==
