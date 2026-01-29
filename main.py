@@ -24,6 +24,7 @@ MENU = 0
 PLAYING = 1
 GAME_OVER = 2
 GAME_WON = 3
+SETTINGS = 4
 
 
 class Player(arcade.Sprite):
@@ -190,6 +191,18 @@ class MyGame(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
+        self.world_camera = arcade.camera.Camera2D()
+        self.camera_zoom = 1.0
+
+        # Громкость (0.0 — тишина, 1.0 — максимум)
+        self.music_volume = 0.5
+        self.sfx_volume = 0.7
+
+        self.jump_sound = arcade.load_sound("static/sounds/jump_sound.mp3")
+        self.throw_sound = arcade.load_sound("static/sounds/throw_sound.mp3")
+        self.walk_sound = arcade.load_sound("static/sounds/walking_sound.mp3")
+        self.music_sound = arcade.load_sound("static/sounds/music_sound.mp3")
+
         self.game_state = MENU
         self.current_level = 1
         self.max_levels = 3
@@ -245,16 +258,31 @@ class MyGame(arcade.Window):
         start_x = TILE_SIZE * 1 + TILE_SIZE // 2
         start_y = TILE_SIZE * 17 + TILE_SIZE // 2
         self.player = Player(start_x, start_y, character_num=character_num, scale=0.1)
-        self.scene.add_sprite("player", self.player)
+        self.player.current_hp = 200 if level_num == 1 else self.player.current_hp
+
+        self.torch_sprite = arcade.Sprite()
+        self.torch_textures = []
+        for i in range(1, 7):
+            # Загружаем все 6 поз
+            tex = arcade.load_texture(f"static/img/torch/torch_pose_0{i}.png")
+            self.torch_textures.append(tex)
+
+        # Устанавливаем начальные значения (динамические свойства)
+        self.torch_sprite.texture = self.torch_textures[0]
+        self.torch_sprite.scale = 0.05
+        self.torch_sprite.current_frame = 0
+        self.torch_sprite.frame_timer = 0
+
+        self.scene.add_sprite("Torch", self.torch_sprite)
+
         if level_num == 1:
-            initial_hp = 600
+            initial_hp = 200
         else:
             initial_hp = self.player.current_hp
 
         self.player = Player(start_x, start_y, character_num=character_num, scale=0.1)
         self.player.current_hp = initial_hp
-        self.player.max_hp = 600
-        # ------------------------
+        self.player.max_hp = 200
 
         self.scene.add_sprite("player", self.player)
 
@@ -281,7 +309,16 @@ class MyGame(arcade.Window):
             gravity_constant=0.5
         )
 
+        self.flying_torches = arcade.SpriteList()
+        self.scene.add_sprite_list("flying_torches", sprite_list=self.flying_torches)
+
+        self.is_holding_torch = False
         self.game_state = PLAYING
+
+        # Создаем камеру 2D
+        self.world_camera = arcade.camera.Camera2D()
+
+        self.camera_zoom = 1.0
 
     def setup(self):
         self.game_state = MENU
@@ -292,6 +329,7 @@ class MyGame(arcade.Window):
         if self.game_state == MENU:
             self.draw_menu()
         elif self.game_state == PLAYING:
+            self.world_camera.use()
             self.draw_game()
             self.draw_ui()
         elif self.game_state == GAME_WON:
@@ -529,6 +567,80 @@ class MyGame(arcade.Window):
         # Обновление анимации игрока
         self.player.update_animation(delta_time)
 
+        # Смещение по умолчанию (в пикселях от центра героя)
+        offset_x = -1
+        offset_y = -5  # Путь будет чуть ниже плеча, ну, по вкусу подкрутишь
+
+        if self.player.on_ladder:
+            # На лестнице всегда чуть в стороне
+            offset_x = 12 if self.player.change_y < 0 else -12
+        elif self.player.change_x > 0:
+            # Идем вправо
+            offset_x = -12
+        elif self.player.change_x < 0:
+            # Идем влево
+            offset_x = 12
+        else:
+            # ПЕРСОНАЖ СТОИТ: смотрим на его направление (direction)
+            # Если direction == "right", факел пусть будет слева (-12), и наоборот
+            if self.player.direction == "right":
+                offset_x = -12
+            else:
+                offset_x = 12
+
+        is_moving = self.player.move_left_pressed or self.player.move_right_pressed
+
+        if is_moving or self.is_holding_torch:
+            if self.camera_zoom < 1.5:
+                self.camera_zoom += 0.02
+        else:
+            if self.camera_zoom > 1.0:
+                self.camera_zoom -= 0.02
+
+        self.torch_sprite.frame_timer += 1
+        if self.torch_sprite.frame_timer >= 6:
+            self.torch_sprite.frame_timer = 0
+            self.torch_sprite.current_frame = (self.torch_sprite.current_frame + 1) % 6
+            self.torch_sprite.texture = self.torch_textures[self.torch_sprite.current_frame]
+
+        if self.is_holding_torch:
+            self.torch_sprite.scale = 0.08
+            self.torch_sprite.center_x = (self.player.center_x + offset_x + self.mouse_x) / 2
+            self.torch_sprite.center_y = (self.player.center_y + offset_y + self.mouse_y) / 2
+        else:
+            self.torch_sprite.scale = 0.05
+            self.torch_sprite.center_x = self.player.center_x + offset_x
+            self.torch_sprite.center_y = self.player.center_y + offset_y
+
+
+        self.world_camera.zoom = self.camera_zoom
+
+        if is_moving or self.is_holding_torch:
+            self.world_camera.position = (self.player.center_x, self.player.center_y)
+        else:
+            target_center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+            cur_x, cur_y = self.world_camera.position
+            new_x = arcade.math.lerp(cur_x, target_center[0], 0.05)
+            new_y = arcade.math.lerp(cur_y, target_center[1], 0.05)
+            self.world_camera.position = (new_x, new_y)
+
+        self.flying_torches.update()
+
+        self.flying_torches.update()
+
+        for flying_torch in self.flying_torches:
+            hit_list = arcade.check_for_collision_with_list(flying_torch, self.ghosts)
+            if hit_list:
+                for ghost in hit_list:
+                    ghost.current_hp -= 50
+                    flying_torch.remove_from_sprite_lists()
+                    break
+
+            if flying_torch.center_x < -100 or flying_torch.center_x > SCREEN_WIDTH + 100:
+                flying_torch.remove_from_sprite_lists()
+
+
+
         # Обновление привидений и проверка столкновений с игроком
         dead_ghosts = []
         for ghost in self.ghosts:
@@ -618,7 +730,6 @@ class MyGame(arcade.Window):
         if self.game_state == MENU:
             button_width = 240
             button_height = 60
-
             button_x1 = (self.width - button_width) // 2
             button_x2 = (self.width + button_width) // 2
             button_y1 = 320
@@ -629,13 +740,31 @@ class MyGame(arcade.Window):
                 self.setup_level(self.current_level)
 
         elif self.game_state == PLAYING:
-            # Сохраняем позицию мыши для обработки в on_update
             self.mouse_x = x
             self.mouse_y = y
 
-            # Проверяем нажатие левой кнопки мыши
             if button == arcade.MOUSE_BUTTON_LEFT:
                 self.handle_mouse_attack(x, y)
+
+                dist = math.sqrt((x - self.torch_sprite.center_x)**2 + (y - self.torch_sprite.center_y)**2)
+                if dist < 60:  # Увеличил радиус до 60, чтобы было легче попасть пальцем/мышкой
+                    self.is_holding_torch = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        # Если мы отпускаем кнопку мыши и до этого держали факел
+        if self.game_state == PLAYING and button == arcade.MOUSE_BUTTON_LEFT:
+            if self.is_holding_torch:
+                # полет
+                new_torch = FlyingTorch(
+                    self.torch_sprite.center_x,
+                    self.torch_sprite.center_y,
+                    x, y,
+                    scale=0.05
+                )
+                self.flying_torches.append(new_torch)
+
+                # больше не держим факел
+                self.is_holding_torch = False
 
     def on_mouse_motion(self, x, y, dx, dy):
         # Сохраняем позицию мыши
@@ -658,6 +787,27 @@ class MyGame(arcade.Window):
                     # Атакуем привидение
                     self.player.attack(ghost, self.total_time)
                     break
+
+
+class FlyingTorch(arcade.Sprite):
+    def __init__(self, x, y, target_x, target_y, scale=0.05):
+        # та же картинка, что и у обычного факела
+        super().__init__("static/img/torch/torch_pose_01.png", scale=scale)
+        self.center_x = x
+        self.center_y = y
+
+        dest_x = target_x - x
+        dest_y = target_y - y
+        angle = math.atan2(dest_y, dest_x)
+
+        speed = 12
+        self.change_x = math.cos(angle) * speed
+        self.change_y = math.sin(angle) * speed
+        self.angle = math.degrees(angle) - 90
+
+    def update(self, delta_time: float = 1/60):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
 
 
 def main():
