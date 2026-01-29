@@ -203,6 +203,8 @@ class MyGame(arcade.Window):
         self.walk_sound = arcade.load_sound("static/sounds/walking_sound.mp3")
         self.music_sound = arcade.load_sound("static/sounds/music_sound.mp3")
 
+        self.music_player = None
+
         self.game_state = MENU
         self.current_level = 1
         self.max_levels = 3
@@ -328,6 +330,8 @@ class MyGame(arcade.Window):
 
         if self.game_state == MENU:
             self.draw_menu()
+        elif self.game_state == SETTINGS:
+            self.draw_settings()
         elif self.game_state == PLAYING:
             self.world_camera.use()
             self.draw_game()
@@ -387,6 +391,55 @@ class MyGame(arcade.Window):
             anchor_x="center",
             anchor_y="center",
         )
+
+    def draw_volume_bar(self, start_x, y_bottom, volume):
+        bar_width = 30
+        bar_height = 20
+        padding = 5
+        for i in range(10):
+            color = (0, 122, 204) if i < volume * 10 else (60, 60, 60)
+            arcade.draw_lrbt_rectangle_filled(
+                left=start_x + i * (bar_width + padding),
+                right=start_x + i * (bar_width + padding) + bar_width,
+                bottom=y_bottom,
+                top=y_bottom + bar_height,
+                color=color
+            )
+
+    def draw_settings(self):
+        arcade.draw_lrbt_rectangle_filled(0, self.width, 0, self.height, (30, 35, 40))
+        arcade.draw_text("НАСТРОЙКИ", self.width / 2, 550, arcade.color.WHITE, 30, anchor_x="center")
+
+        music_x = self.width / 2 - 170
+        music_y = 390
+        arcade.draw_text("Музыка", music_x, music_y + 30, arcade.color.WHITE, 16)
+
+        # Кружок "-" слева
+        arcade.draw_circle_outline(music_x - 30, music_y + 10, 15, arcade.color.WHITE, 2)
+        arcade.draw_text("-", music_x - 30, music_y + 10, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
+
+        # Сама шкала
+        self.draw_volume_bar(music_x, music_y, self.music_volume)
+
+        # Кружок "+" справа
+        arcade.draw_circle_outline(music_x + 380, music_y + 10, 15, arcade.color.WHITE, 2)
+        arcade.draw_text("+", music_x + 380, music_y + 10, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
+
+        sfx_y = 290
+        arcade.draw_text("Эффекты", music_x, sfx_y + 30, arcade.color.WHITE, 16)
+
+        # Кружок "-"
+        arcade.draw_circle_outline(music_x - 30, sfx_y + 10, 15, arcade.color.WHITE, 2)
+        arcade.draw_text("-", music_x - 30, sfx_y + 10, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
+
+        self.draw_volume_bar(music_x, sfx_y, self.sfx_volume)
+
+        # Кружок "+"
+        arcade.draw_circle_outline(music_x + 380, sfx_y + 10, 15, arcade.color.WHITE, 2)
+        arcade.draw_text("+", music_x + 380, sfx_y + 10, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
+
+        arcade.draw_text("ESC - Назад", self.width / 2, 100, arcade.color.GOLD, 16, anchor_x="center")
+
 
     def draw_game(self):
         self.scene.draw()
@@ -732,23 +785,73 @@ class MyGame(arcade.Window):
             button_height = 60
             button_x1 = (self.width - button_width) // 2
             button_x2 = (self.width + button_width) // 2
+
+            # Координаты кнопки "Начать играть"
             button_y1 = 320
             button_y2 = 320 + button_height
+
+            # Координаты кнопки "Настройки"
+            settings_y1 = 230
+            settings_y2 = 230 + button_height
 
             if button_x1 <= x <= button_x2 and button_y1 <= y <= button_y2:
                 self.current_level = 1
                 self.setup_level(self.current_level)
 
+                # ЗАПУСК МУЗЫКИ
+                if not self.music_player:
+                    self.music_player = arcade.play_sound(self.music_sound, self.music_volume, loop=True)
+
+                self.game_state = PLAYING
+
+            # 2. Проверка нажатия "Настройки"
+            elif button_x1 <= x <= button_x2 and settings_y1 <= y <= settings_y2:
+                self.game_state = SETTINGS
+
         elif self.game_state == PLAYING:
+            # Обновляем координаты мыши для прицеливания факелом
             self.mouse_x = x
             self.mouse_y = y
 
             if button == arcade.MOUSE_BUTTON_LEFT:
-                self.handle_mouse_attack(x, y)
+                self.is_holding_torch = True
 
-                dist = math.sqrt((x - self.torch_sprite.center_x)**2 + (y - self.torch_sprite.center_y)**2)
-                if dist < 60:  # Увеличил радиус до 60, чтобы было легче попасть пальцем/мышкой
-                    self.is_holding_torch = True
+                start_x = self.player.center_x
+                start_y = self.player.center_y
+                dest_x = x + self.world_camera.position[0] - self.width / 2
+                dest_y = y + self.world_camera.position[1] - self.height / 2
+
+                # Звук броска/захвата
+                arcade.play_sound(self.throw_sound, self.sfx_volume)
+
+
+        elif self.game_state == SETTINGS:
+
+            music_x = self.width / 2 - 170
+            # Кнопка МИНУС
+            if arcade.math.get_distance(x, y, music_x - 30, 390 + 10) < 15:
+
+                self.music_volume = max(0.0, self.music_volume - 0.1)
+
+                if self.music_player:
+                    self.music_player.volume = self.music_volume
+            # Кнопка ПЛЮС
+            if arcade.math.get_distance(x, y, music_x + 380, 390 + 10) < 15:
+
+                self.music_volume = min(1.0, self.music_volume + 0.1)
+
+                if self.music_player:
+                    self.music_player.volume = self.music_volume
+
+            if arcade.math.get_distance(x, y, music_x - 30, 290 + 10) < 15:
+                self.sfx_volume = max(0.0, self.sfx_volume - 0.1)
+
+
+            if arcade.math.get_distance(x, y, music_x + 380, 290 + 10) < 15:
+                self.sfx_volume = min(1.0, self.sfx_volume + 0.1)
+
+            if 50 <= y <= 150 and self.width / 2 - 100 <= x <= self.width / 2 + 100:
+                self.game_state = MENU
 
     def on_mouse_release(self, x, y, button, modifiers):
         # Если мы отпускаем кнопку мыши и до этого держали факел
