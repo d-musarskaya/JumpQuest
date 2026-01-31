@@ -190,7 +190,7 @@ class Ghost(arcade.Sprite):
 class MyGame(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
-
+        self.gui_camera = arcade.camera.Camera2D()
         self.world_camera = arcade.camera.Camera2D()
         self.camera_zoom = 1.0
 
@@ -223,6 +223,8 @@ class MyGame(arcade.Window):
         self.total_time = 0.0
         self.health_bar_width = 200
         self.health_bar_height = 20
+        self.total_hp_earned = 0
+        self.max_possible_hp = self.max_levels * 200
 
         # Для обработки кликов мыши
         self.mouse_x = 0
@@ -324,6 +326,7 @@ class MyGame(arcade.Window):
 
     def setup(self):
         self.game_state = MENU
+        self.total_hp_earned = 0
 
     def on_draw(self):
         self.clear()
@@ -497,6 +500,7 @@ class MyGame(arcade.Window):
         )
 
     def draw_game_won(self):
+        self.gui_camera.use()
         arcade.draw_lrbt_rectangle_filled(0, self.width, 0, self.height, arcade.color.BLACK)
 
         arcade.draw_text("МОЛОДЕЦ! ТЫ ВЫИГРАЛ!",
@@ -508,7 +512,7 @@ class MyGame(arcade.Window):
                          anchor_y="center")
 
         current_hp = int(max(0, self.player.current_hp))
-        arcade.draw_text(f"ОСТАЛОСЬ HP: {current_hp}/600",
+        arcade.draw_text(f"РЕЗУЛЬТАТ HP: {self.total_hp_earned}/600",
                          self.width // 2,
                          self.height // 2,
                          arcade.color.GREEN,
@@ -533,6 +537,7 @@ class MyGame(arcade.Window):
                                 anchor_y="center")
 
     def draw_game_over(self):
+        self.gui_camera.use()
         arcade.draw_lrbt_rectangle_filled(
             left=0,
             right=self.width,
@@ -726,24 +731,28 @@ class MyGame(arcade.Window):
 
         if self.current_level == 1:
             if player_tile_x == 9 and player_tile_y == 1:
+                self.total_hp_earned += self.player.current_hp
                 self.current_level = 2
                 self.setup_level(self.current_level)
         elif self.current_level == 2:
             if player_tile_x == 28 and player_tile_y == 1:
+                self.total_hp_earned += self.player.current_hp
                 self.current_level = 3
                 self.setup_level(self.current_level)
         elif self.current_level == 3:
             if player_tile_x == 2 and player_tile_y == 1:
-                # --- ДОБАВЛЯЕМ СОХРАНЕНИЕ ---
-                final_hp = int(self.player.current_hp)
+                self.total_hp_earned += self.player.current_hp
+
                 db = sqlite3.connect("JumpQuest.db")
                 res = db.execute("SELECT score FROM record").fetchone()
                 old_record = res[0] if res else 0
 
-                if final_hp > old_record:
-                    db.execute(f"UPDATE record SET score = {final_hp}")
+                old_record = res[0] if res else 0
+
+                if self.total_hp_earned > old_record:
+                    db.execute(f"UPDATE record SET score = {self.total_hp_earned}")
                     db.commit()
-                    self.high_score = final_hp
+                    self.high_score = self.total_hp_earned
                 else:
                     self.high_score = old_record
                 db.close()

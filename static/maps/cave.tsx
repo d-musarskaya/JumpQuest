@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.2" name="cave" tilewidth="32" tileheight="32" tilecount="80" columns="8">
- <image source="../../../../Downloads/JumpQuest-2/cave.png" width="256" height="336"/>
+ <image source="../maps/cave.png" width="256" height="336"/>
 </tileset>
